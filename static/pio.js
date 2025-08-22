@@ -11,6 +11,7 @@ var Paul_Pio = function (prop) {
 
     const current = {
         idol: 0,
+        skin: 0, // 新增：当前皮肤索引
         timeout: undefined,
         menu: document.querySelector(".pio-container .pio-action"),
         canvas: document.getElementById("pio"),
@@ -48,6 +49,12 @@ var Paul_Pio = function (prop) {
         idol: () => {
             current.idol < (prop.model.length - 1) ? current.idol++ : current.idol = 0;
             return current.idol;
+        },
+        // 新增：皮肤轮换（针对同一模型的不同贴图 json）
+        skin: () => {
+            if (!prop.skins || !prop.skins.length) return 0;
+            current.skin < (prop.skins.length - 1) ? current.skin++ : current.skin = 0;
+            return current.skin;
         },
         message: (text, options = {}) => {
             const { dialog } = elements;
@@ -114,13 +121,18 @@ var Paul_Pio = function (prop) {
             current.menu.appendChild(elements.greet);
 
             // 更换衣服按钮
-            if (prop.model && prop.model.length > 1) {
+            const canSkin = (prop.skins && prop.skins.length > 0) || (prop.model && prop.model.length > 1);
+            if (canSkin) {
                 elements.skin.onclick = () => {
-                    loadlive2d("pio", prop.model[modules.idol()]);
-                    prop.content.skin && modules.message(prop.content.skin[1] || "新衣服真漂亮~");
+                    // 优先使用 skins（同一模型不同贴图），否则回退到多 model
+                    const nextUrl = (prop.skins && prop.skins.length)
+                      ? prop.skins[modules.skin()]
+                      : prop.model[modules.idol()];
+                    loadlive2d("pio", nextUrl);
+                    modules.message((prop.content.skin && prop.content.skin[1]) || "新衣服真漂亮~");
                 };
                 elements.skin.onmouseover = () => {
-                    prop.content.skin && modules.message(prop.content.skin[0] || "想看看我的新衣服吗？");
+                    modules.message((prop.content.skin && prop.content.skin[0]) || "想看看我的新衣服吗？");
                 };
                 current.menu.appendChild(elements.skin);
             }
