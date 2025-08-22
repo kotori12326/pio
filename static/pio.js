@@ -124,27 +124,28 @@ var Paul_Pio = function (prop) {
             const canSkin = (prop.model && prop.model.length > 0);
             if (canSkin) {
                 elements.skin.onclick = async () => {
-                    // 初始化索引
-                    if (current.textureIndex === undefined) current.textureIndex = 0;
+                    if (!current.textureIndex && current.textureIndex !== 0) current.textureIndex = 0;
 
-                    // 下一个纹理
+                    // 下一个贴图索引
                     current.textureIndex++;
                     if (current.textureIndex >= prop.textures.length) current.textureIndex = 0;
 
                     try {
-                        // fetch model.json
                         const response = await fetch(prop.model[0]);
                         const modelData = await response.json();
 
                         // 替换 textures
                         modelData.textures = [prop.textures[current.textureIndex]];
 
-                        // 重新加载
-                        loadlive2d("pio", modelData);
+                        // 将 JSON 转成 Blob URL
+                        const blob = new Blob([JSON.stringify(modelData)], { type: "application/json" });
+                        const url = URL.createObjectURL(blob);
+
+                        loadlive2d("pio", url);
 
                         modules.message((prop.content.skin && prop.content.skin[1]) || "新衣服真漂亮~");
                     } catch (e) {
-                        console.error("加载 model.json 出错:", e);
+                        console.error("切换衣服失败:", e);
                         modules.message("衣服切换失败 QwQ");
                     }
                 };
@@ -208,7 +209,6 @@ var Paul_Pio = function (prop) {
         if (!(prop.hidden && tools.isMobile())) {
             if (!noModel) {
                 action.welcome();
-                // 默认第 0 套贴图
                 const modelUrl = prop.model[0];
                 const defaultTexture = prop.textures && prop.textures.length ? [prop.textures[0]] : undefined;
 
@@ -217,21 +217,14 @@ var Paul_Pio = function (prop) {
                     .then(res => res.json())
                     .then(data => {
                         data.textures = defaultTexture;
-                        loadlive2d("pio", data);
+                        const blob = new Blob([JSON.stringify(data)], { type: "application/json" });
+                        const url = URL.createObjectURL(blob);
+                        loadlive2d("pio", url);
                     });
                 } else {
                     loadlive2d("pio", modelUrl);
                 }
             }
-
-            switch (prop.mode) {
-                case "static": begin.static(); break;
-                case "fixed": begin.fixed(); break;
-                case "draggable": begin.draggable(); break;
-            }
-
-            prop.content.custom && action.custom && action.custom();
-        }
     };
 
     this.initHidden = () => {
