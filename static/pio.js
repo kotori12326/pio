@@ -123,23 +123,31 @@ var Paul_Pio = function (prop) {
             // 更换衣服按钮
             const canSkin = (prop.model && prop.model.length > 0);
             if (canSkin) {
-                elements.skin.onclick = () => {
-                    if (!current.textureIndex) current.textureIndex = 0;
+                elements.skin.onclick = async () => {
+                    // 初始化索引
+                    if (current.textureIndex === undefined) current.textureIndex = 0;
 
-                    // 下一个纹理索引
-                    const modelUrl = prop.model[0]; // model.json URL
-                    const textures = prop.textures || []; // 贴图数组在 prop.textures 里
-                    if (!textures.length) return;
-
+                    // 下一个纹理
                     current.textureIndex++;
-                    if (current.textureIndex >= textures.length) current.textureIndex = 0;
+                    if (current.textureIndex >= prop.textures.length) current.textureIndex = 0;
 
-                    // 动态加载贴图
-                    loadlive2d("pio", modelUrl, current.textureIndex);
+                    try {
+                        // fetch model.json
+                        const response = await fetch(prop.model[0]);
+                        const modelData = await response.json();
 
-                    modules.message((prop.content.skin && prop.content.skin[1]) || "新衣服真漂亮~");
+                        // 替换 textures
+                        modelData.textures = [prop.textures[current.textureIndex]];
+
+                        // 重新加载
+                        loadlive2d("pio", modelData);
+
+                        modules.message((prop.content.skin && prop.content.skin[1]) || "新衣服真漂亮~");
+                    } catch (e) {
+                        console.error("加载 model.json 出错:", e);
+                        modules.message("衣服切换失败 QwQ");
+                    }
                 };
-
                 elements.skin.onmouseover = () => {
                     modules.message((prop.content.skin && prop.content.skin[0]) || "想看看我的新衣服吗？");
                 };
@@ -200,7 +208,20 @@ var Paul_Pio = function (prop) {
         if (!(prop.hidden && tools.isMobile())) {
             if (!noModel) {
                 action.welcome();
-                loadlive2d("pio", prop.model[0]);
+                // 默认第 0 套贴图
+                const modelUrl = prop.model[0];
+                const defaultTexture = prop.textures && prop.textures.length ? [prop.textures[0]] : undefined;
+
+                if (defaultTexture) {
+                    fetch(modelUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        data.textures = defaultTexture;
+                        loadlive2d("pio", data);
+                    });
+                } else {
+                    loadlive2d("pio", modelUrl);
+                }
             }
 
             switch (prop.mode) {
