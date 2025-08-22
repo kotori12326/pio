@@ -117,9 +117,7 @@ var Paul_Pio = function (prop) {
             // 更换衣服按钮
             if (prop.model && prop.model.length > 0) {
                 elements.skin.onclick = () => {
-                    const nextIdol = modules.idol(); // 更新 current.idol
-                    localStorage.setItem("posterGirlIdol", nextIdol);
-                    loadlive2d("pio", prop.model[nextIdol]);
+                    loadlive2d("pio", prop.model[modules.idol()]);
                     prop.content.skin && modules.message(prop.content.skin[1] || "新衣服真漂亮~");
                 };
                 elements.skin.onmouseover = () => {
@@ -182,16 +180,7 @@ var Paul_Pio = function (prop) {
         if (!(prop.hidden && tools.isMobile())) {
             if (!noModel) {
                 action.welcome();
-                let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
-                if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) {
-                    savedIdol = 0;
-                }
-                current.idol = savedIdol;
-                loadlive2d("pio", prop.model[savedIdol]);
-
-                current.body.style.bottom = "50px";  // 距离底部50px，可调
-                current.body.style.top = "auto";      // 保证不会被 top 覆盖
-                current.body.style.right = "20px";    // 保持右侧偏移
+                loadlive2d("pio", prop.model[0]);
             }
 
             switch (prop.mode) {
@@ -206,9 +195,9 @@ var Paul_Pio = function (prop) {
 
     this.initHidden = () => {
         if (prop.mode === "draggable") {
-            current.body.style.top = "auto";
-            current.body.style.right = "20px";
-            current.body.style.bottom = "50px";
+            current.body.style.top = null;
+            current.body.style.left = null;
+            current.body.style.bottom = null;
         }
 
         current.body.classList.add("hidden");
@@ -217,60 +206,11 @@ var Paul_Pio = function (prop) {
         elements.show.onclick = () => {
             current.body.classList.remove("hidden");
             localStorage.setItem("posterGirl", "1");
-
-            // 获取保存的衣服索引
-            let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
-            if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) {
-                savedIdol = 0;
-            }
-            current.idol = savedIdol;
-
-            // 只加载保存的衣服，而不是 init() 里默认的第一套
-            loadlive2d("pio", prop.model[savedIdol]);
-
-            // 触发其他初始化操作（按钮、拖动等）
-            switch (prop.mode) {
-                case "static": current.body.classList.add("static"); break;
-                case "fixed":
-                    action.touch();
-                    action.buttons();
-                    break;
-                case "draggable":
-                    action.touch();
-                    action.buttons();
-                    const body = current.body;
-                    const location = { x: 0, y: 0 };
-
-                    const mousedown = (ev) => {
-                        const { offsetLeft, offsetTop } = ev.currentTarget;
-                        location.x = ev.clientX - offsetLeft;
-                        location.y = ev.clientY - offsetTop;
-
-                        document.addEventListener("mousemove", mousemove);
-                        document.addEventListener("mouseup", mouseup);
-                    };
-
-                    const mousemove = (ev) => {
-                        body.classList.add("active");
-                        body.classList.remove("right");
-                        body.style.left = (ev.clientX - location.x) + "px";
-                        body.style.top  = (ev.clientY - location.y) + "px";
-                        body.style.bottom = "auto";
-                    };
-
-                    const mouseup = () => {
-                        body.classList.remove("active");
-                        document.removeEventListener("mousemove", mousemove);
-                    };
-
-                    body.onmousedown = mousedown;
-                    break;
-            }
+            that.init();
         }
-
     };
 
-    this.init();
+    localStorage.getItem("posterGirl") === "0" ? this.initHidden() : this.init();
 };
 
 // 请保留版权说明
