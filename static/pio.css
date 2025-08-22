@@ -11,7 +11,7 @@
 ---- */
 
 .pio-container{
-    bottom: 0;
+    bottom: auto;
     z-index: 52;
     color: #666;
     position: fixed;
