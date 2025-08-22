@@ -124,21 +124,21 @@ var Paul_Pio = function (prop) {
             const canSkin = (prop.model && prop.model.length > 0);
             if (canSkin) {
                 elements.skin.onclick = () => {
-                    // 如果 model.json 中有 textures 数组，就切换索引
-                    const modelData = prop.model[0]; // 只有一个 model.json
                     if (!current.textureIndex) current.textureIndex = 0;
 
-                    // 切换到下一套衣服
-                    current.textureIndex++;
-                    // textures 数量
-                    const texturesCount = modelData.textures.length;
-                    if (current.textureIndex >= texturesCount) current.textureIndex = 0;
+                    // 下一个纹理索引
+                    const modelUrl = prop.model[0]; // model.json URL
+                    const textures = prop.textures || []; // 贴图数组在 prop.textures 里
+                    if (!textures.length) return;
 
-                    // 调用 Live2D 加载纹理索引
-                    loadlive2d("pio", modelData, current.textureIndex);
+                    current.textureIndex++;
+                    if (current.textureIndex >= textures.length) current.textureIndex = 0;
+
+                    // 动态加载贴图
+                    loadlive2d("pio", modelUrl, current.textureIndex);
 
                     modules.message((prop.content.skin && prop.content.skin[1]) || "新衣服真漂亮~");
-            };
+                };
 
                 elements.skin.onmouseover = () => {
                     modules.message((prop.content.skin && prop.content.skin[0]) || "想看看我的新衣服吗？");
