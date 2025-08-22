@@ -21,7 +21,7 @@
 
   <!-- 容器 -->
   <div class="pio-container">
-    <canvas id="pio" width="300" height="450"></canvas>
+    <canvas id="pio" width="400" height="600"></canvas>
     <div class="pio-action"></div>
   </div>
 
@@ -31,21 +31,21 @@
 
   <script>
     var pio = new Paul_Pio({
-      mode: "fixed",    // 固定在右下角（可改 draggable 可拖动）
-      hidden: false,    // 是否在移动端隐藏
-      tips: true,       // 开启时间段问候
-      content: {
-        welcome: "欢迎来到我的小站！",  
-        touch: ["不要碰我啦！", "再摸我就报警了！", "HENTAI!"],  
-        skin: ["想看看我的新衣服吗？", "哇哦，这套好看吗？"],   
-        close: "QWQ 下次再见吧~",   
-        referer: "欢迎来自 %t 的朋友！"
+      "mode": "fixed",   // 固定在右下角（可改 draggable 可拖动）
+      "hidden": false,   // 是否在移动端隐藏
+      "content": {
+        "welcome": "欢迎来到我的小站！",  // 问候语
+        "touch": ["不要碰我啦！", "再摸我就报警了！", "HENTAI!"],  // 点击模型时的对话
+        "skin": ["想看看我的新衣服吗？", "哇哦，这套好看吗？"],   // 更换衣服时提示
+        "close": "QWQ 下次再见吧~",   // 关闭提示
+        "referer": "欢迎来自 %t 的朋友！",  // 来源提示
+        "custom": []  // 可扩展
       },
-      model: [
+      "model": [
         "https://kotori12326.github.io/pio/models/pio/model-01.json",
         "https://kotori12326.github.io/pio/models/pio/model-02.json",
         "https://kotori12326.github.io/pio/models/pio/model-03.json"
-        // ...最多 40 套
+        // 可以继续添加其他模型 jsonPath 来实现换衣服
       ]
     });
   </script>
