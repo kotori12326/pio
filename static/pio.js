@@ -270,7 +270,7 @@ var Paul_Pio = function (prop) {
 
     };
 
-    localStorage.getItem("posterGirl") === "0" ? this.initHidden() : this.init();
+    this.init();
 };
 
 // 请保留版权说明
