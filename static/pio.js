@@ -55,7 +55,6 @@ var Paul_Pio = function (prop) {
             } else {
                 dialog.innerText = "输入内容出现问题了 X_X";
             }
-
             dialog.classList.add("active");
             current.timeout = clearTimeout(current.timeout) || undefined;
             current.timeout = setTimeout(() => {
@@ -73,8 +72,9 @@ var Paul_Pio = function (prop) {
 
     const action = {
         welcome: () => {
+            let text;
             if (prop.tips) {
-                let text, hour = new Date().getHours();
+                const hour = new Date().getHours();
                 if (hour > 22 || hour <= 5) text = "夜深了，早点休息哦~";
                 else if (hour > 5 && hour <= 8) text = "早上好！";
                 else if (hour > 8 && hour <= 11) text = "上午好！记得多喝水~";
@@ -84,11 +84,10 @@ var Paul_Pio = function (prop) {
                 else if (hour > 19 && hour <= 21) text = "晚上好呀~";
                 else if (hour > 21 && hour <= 23) text = "已经很晚了，早点休息吧";
                 else text = prop.content.welcome || "欢迎来到本站！";
-
-                modules.message(text);
             } else {
-                modules.message(prop.content.welcome || "欢迎来到本站！");
+                text = prop.content.welcome || "欢迎来到本站！";
             }
+            modules.message(text);
         },
 
         touch: () => {
@@ -140,16 +139,14 @@ var Paul_Pio = function (prop) {
                 const { offsetLeft, offsetTop } = ev.currentTarget;
                 location.x = ev.clientX - offsetLeft;
                 location.y = ev.clientY - offsetTop;
-
                 document.addEventListener("mousemove", mousemove);
                 document.addEventListener("mouseup", mouseup);
             };
 
             const mousemove = (ev) => {
                 body.classList.add("active");
-                body.classList.remove("right");
                 body.style.left = (ev.clientX - location.x) + "px";
-                body.style.top  = (ev.clientY - location.y) + "px";
+                body.style.top = (ev.clientY - location.y) + "px";
                 body.style.bottom = "auto";
             };
 
@@ -167,13 +164,11 @@ var Paul_Pio = function (prop) {
             if (!noModel) {
                 action.welcome();
                 let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
-                if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) savedIdol = 0;
+                if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) {
+                    savedIdol = 0;
+                }
                 current.idol = savedIdol;
                 loadlive2d("pio", prop.model[savedIdol]);
-
-                current.body.style.bottom = "50px";
-                current.body.style.top = "auto";
-                current.body.style.right = "20px";
             }
 
             switch (prop.mode) {
@@ -192,32 +187,27 @@ var Paul_Pio = function (prop) {
             current.body.style.left = null;
             current.body.style.bottom = null;
         }
-    
+
         current.body.classList.add("hidden");
         elements.dialog.classList.remove("active");
-    
+
         elements.show.onclick = () => {
             current.body.classList.remove("hidden");
             localStorage.setItem("posterGirl", "1");
-        
+
             // 获取保存的衣服索引
-            let savedIdol = localStorage.getItem("posterGirlIdol");
-            if (savedIdol !== null) {
-                savedIdol = parseInt(savedIdol);
-                // 防止越界
-                if (savedIdol < 0 || savedIdol >= prop.model.length) savedIdol = 0;
-            } else {
-                savedIdol = current.idol; // 使用当前idol，不重置为0
+            let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
+            if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) {
+                savedIdol = 0;
             }
-        
             current.idol = savedIdol;
+
+            // 只加载保存的衣服
             loadlive2d("pio", prop.model[savedIdol]);
-        
+
             // 触发其他初始化操作（按钮、拖动等）
             switch (prop.mode) {
-                case "static":
-                    current.body.classList.add("static");
-                    break;
+                case "static": current.body.classList.add("static"); break;
                 case "fixed":
                     action.touch();
                     action.buttons();
@@ -227,6 +217,7 @@ var Paul_Pio = function (prop) {
                     action.buttons();
                     const body = current.body;
                     const location = { x: 0, y: 0 };
+
                     const mousedown = (ev) => {
                         const { offsetLeft, offsetTop } = ev.currentTarget;
                         location.x = ev.clientX - offsetLeft;
@@ -234,29 +225,33 @@ var Paul_Pio = function (prop) {
                         document.addEventListener("mousemove", mousemove);
                         document.addEventListener("mouseup", mouseup);
                     };
+
                     const mousemove = (ev) => {
                         body.classList.add("active");
                         body.style.left = (ev.clientX - location.x) + "px";
                         body.style.top  = (ev.clientY - location.y) + "px";
                         body.style.bottom = "auto";
                     };
+
                     const mouseup = () => {
                         body.classList.remove("active");
                         document.removeEventListener("mousemove", mousemove);
                     };
+
                     body.onmousedown = mousedown;
                     break;
             }
         };
-
     };
 
-    this.init();
+    // 根据 localStorage 决定是否隐藏
+    localStorage.getItem("posterGirl") === "0" ? this.initHidden() : this.init();
 };
 
 // 请保留版权说明
 if (window.console && window.console.log) {
-    console.log("%c Pio %c https://paugram.com ",
+    console.log(
+        "%c Pio %c https://paugram.com ",
         "color: #fff; margin: 1em 0; padding: 5px 0; background: #673ab7;",
         "margin: 1em 0; padding: 5px 0; background: #efefef;"
     );
