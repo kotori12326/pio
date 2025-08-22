@@ -121,7 +121,7 @@ var Paul_Pio = function (prop) {
             current.menu.appendChild(elements.greet);
 
             // 更换衣服按钮
-            const canSkin = (prop.skins && prop.skins.length > 0) || (prop.model && prop.model.length > 1);
+            const canSkin = (prop.skins && prop.skins.length > 0) || (prop.model && prop.model.length > 0);
             if (canSkin) {
                 elements.skin.onclick = () => {
                     // 优先使用 skins（同一模型不同贴图），否则回退到多 model
