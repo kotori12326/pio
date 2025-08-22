@@ -4,7 +4,6 @@
 # By: Dreamer-Paul | Modified by Kotori
 # Last Update: 2025.08.22
 
-只保留：问候按钮 + 换衣服按钮 + 关闭按钮
 
 ---- */
 
@@ -49,6 +48,7 @@ var Paul_Pio = function (prop) {
     const modules = {
         idol: () => {
             current.idol < (prop.model.length - 1) ? current.idol++ : current.idol = 0;
+            localStorage.setItem("posterGirlIdol", current.idol); // 保存当前衣服索引
             return current.idol;
         },
         message: (text, options = {}) => {
@@ -181,7 +181,11 @@ var Paul_Pio = function (prop) {
         if (!(prop.hidden && tools.isMobile())) {
             if (!noModel) {
                 action.welcome();
-                loadlive2d("pio", prop.model[0]);
+                // 读取上一次衣服索引
+                const savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
+                const modelIndex = (!isNaN(savedIdol) && savedIdol >= 0 && savedIdol < prop.model.length) ? savedIdol : 0;
+                current.idol = modelIndex;
+                loadlive2d("pio", prop.model[modelIndex]);
             }
 
             switch (prop.mode) {
