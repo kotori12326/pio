@@ -188,6 +188,10 @@ var Paul_Pio = function (prop) {
                 }
                 current.idol = savedIdol;
                 loadlive2d("pio", prop.model[savedIdol]);
+
+                current.body.style.bottom = "50px";  // 距离底部50px，可调
+                current.body.style.top = "auto";      // 保证不会被 top 覆盖
+                current.body.style.right = "20px";    // 保持右侧偏移
             }
 
             switch (prop.mode) {
