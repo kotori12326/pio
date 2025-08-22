@@ -213,7 +213,7 @@ var Paul_Pio = function (prop) {
             // 设置显示位置
             current.body.style.top = "auto";
             current.body.style.right = "20px";
-            current.body.style.bottom = "200px";
+            current.body.style.bottom = "500px";
 
             // 触发其他初始化操作（按钮、拖动等）
             switch (prop.mode) {
