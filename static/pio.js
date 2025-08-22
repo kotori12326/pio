@@ -211,9 +211,8 @@ var Paul_Pio = function (prop) {
             loadlive2d("pio", prop.model[savedIdol]);
 
             // 设置显示位置
-            current.body.style.top = "auto";
             current.body.style.right = "20px";
-            current.body.style.bottom = "350px";
+            current.body.style.bottom = "400px";
 
             // 触发其他初始化操作（按钮、拖动等）
             switch (prop.mode) {
