@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Live2D 挂件示例</title>
+  <!-- Live2D 样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@main/static/pio.css">
+  <style>
+    /* 挂件容器固定在右下角 */
+    #live2d-widget {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 200px;
+      height: 300px;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+<div id="live2d-widget"></div>
+
+<!-- Live2D JS 文件 -->
+<script src="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@main/static/l2d.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@main/static/pio.js"></script>
+
+<script>
+  // 等 DOM 加载完成再初始化
+  window.onload = function() {
+    // Live2D 模型 JSON 地址（绝对 URL，确保 textures 路径也正确）
+    const modelUrl = "https://cdn.jsdelivr.net/gh/Dreamer-Paul/Pio@main/model/pio/model.json";
+
+    // 检查 WebGL 是否可用
+    if (!window.WebGLRenderingContext) {
+      alert("你的浏览器不支持 WebGL，无法显示 Live2D 模型。");
+      return;
+    }
+
+    // 初始化 Live2D
+    loadlive2d("live2d-widget", modelUrl);
+  };
+</script>
+
+</body>
+</html>
