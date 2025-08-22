@@ -2,9 +2,9 @@
     "version":"1.0.0",
     "model":"model.moc",
     "textures":[
-        "https://kotori12326.github.io/pio/textures/default-costume.png",
-        "https://kotori12326.github.io/pio/textures/pajamas-costume.png",
-        "https://kotori12326.github.io/pio/textures/school-costume.png"
+        "https://kotori12326.github.io/pio/models/pio/textures/default-costume.png",
+        "https://kotori12326.github.io/pio/models/pio/textures/pajamas-costume.png",
+        "https://kotori12326.github.io/pio/models/pio/textures/school-costume.png"
     ],
     "layout":{
         "center_x":0.0,
@@ -19,61 +19,61 @@
     },
     "motions":{
         "idle":[
-            {"file":"https://kotori12326.github.io/pio/motions/WakeUp.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath1.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath2.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath3.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath5.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath7.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath8.mtn"}
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/WakeUp.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath1.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath2.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath3.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath5.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath7.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath8.mtn"}
         ],
 		"sleepy":[
-            {"file":"https://kotori12326.github.io/pio/motions/Sleeping.mtn"}
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Sleeping.mtn"}
         ],
         "flick_head":[
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere1.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere2.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere3.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere4.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere5.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere6.mtn"}
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere1.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere2.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere3.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere4.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere5.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere6.mtn"}
         ],
         "tap_body":[
-            {"file":"https://kotori12326.github.io/pio/motions/Touch1.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch2.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch3.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch4.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch5.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch6.mtn"}
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch1.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch2.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch3.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch4.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch5.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch6.mtn"}
         ],
         "":[
-            {"file":"https://kotori12326.github.io/pio/motions/Breath1.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath2.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath3.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath4.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath5.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath6.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath7.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Breath8.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Fail.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Sleeping.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Success.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Sukebei1.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Sukebei2.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Sukebei3.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere1.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere2.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere3.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere4.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere5.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch Dere6.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch1.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch2.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch3.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch4.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch5.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/Touch6.mtn"},
-            {"file":"https://kotori12326.github.io/pio/motions/WakeUp.mtn"}
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath1.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath2.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath3.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath4.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath5.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath6.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath7.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Breath8.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Fail.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Sleeping.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Success.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Sukebei1.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Sukebei2.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Sukebei3.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere1.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere2.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere3.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere4.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere5.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch Dere6.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch1.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch2.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch3.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch4.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch5.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/Touch6.mtn"},
+            {"file":"https://kotori12326.github.io/pio/models/pio/motions/WakeUp.mtn"}
         ]
     }
 }

@@ -2,13 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Live2D 挂件示例</title>
-
-  <!-- Live2D 样式 -->
-  <link rel="stylesheet" href="https://kotori12326.github.io/pio/static/pio.css">
-
+  <title>Live2D GitHub Pages 挂件示例</title>
   <style>
-    /* 挂件固定右下角 */
     #live2d-widget {
       position: fixed;
       right: 20px;
@@ -20,29 +15,26 @@
   </style>
 </head>
 <body>
+  <div id="live2d-widget"></div>
 
-<!-- Live2D 容器 -->
-<div id="live2d-widget"></div>
+  <!-- 官方 Live2D Web SDK CDN -->
+  <script src="https://unpkg.com/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
 
-<!-- Live2D JS -->
-<script src="https://kotori12326.github.io/pio/static/l2d.js"></script>
-<script src="https://kotori12326.github.io/pio/static/pio.js"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // 检查 WebGL
-    if (!window.WebGLRenderingContext) {
-      alert("你的浏览器不支持 WebGL，无法显示 Live2D 模型。");
-      return;
-    }
-
-    // Live2D 模型 JSON 地址
-    const modelUrl = "https://kotori12326.github.io/pio/model/pio/model.json";
-
-    // 初始化 Live2D
-    loadlive2d("live2d-widget", modelUrl);
-  });
-</script>
-
+  <script>
+    L2Dwidget.init({
+      model: {
+        jsonPath: "https://kotori12326.github.io/pio/models/pio/model.json"
+      },
+      display: {
+        position: "right",
+        width: 200,
+        height: 300
+      },
+      mobile: {
+        show: true,
+        scale: 0.5
+      }
+    });
+  </script>
 </body>
 </html>
