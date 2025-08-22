@@ -48,7 +48,6 @@ var Paul_Pio = function (prop) {
     const modules = {
         idol: () => {
             current.idol < (prop.model.length - 1) ? current.idol++ : current.idol = 0;
-            localStorage.setItem("posterGirlIdol", current.idol); // 保存当前衣服索引
             return current.idol;
         },
         message: (text, options = {}) => {
@@ -118,7 +117,9 @@ var Paul_Pio = function (prop) {
             // 更换衣服按钮
             if (prop.model && prop.model.length > 0) {
                 elements.skin.onclick = () => {
-                    loadlive2d("pio", prop.model[modules.idol()]);
+                    const nextIdol = modules.idol(); // 更新 current.idol
+                    localStorage.setItem("posterGirlIdol", nextIdol);
+                    loadlive2d("pio", prop.model[nextIdol]);
                     prop.content.skin && modules.message(prop.content.skin[1] || "新衣服真漂亮~");
                 };
                 elements.skin.onmouseover = () => {
@@ -181,11 +182,12 @@ var Paul_Pio = function (prop) {
         if (!(prop.hidden && tools.isMobile())) {
             if (!noModel) {
                 action.welcome();
-                // 读取上一次衣服索引
-                const savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
-                const modelIndex = (!isNaN(savedIdol) && savedIdol >= 0 && savedIdol < prop.model.length) ? savedIdol : 0;
-                current.idol = modelIndex;
-                loadlive2d("pio", prop.model[modelIndex]);
+                let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
+                if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) {
+                    savedIdol = 0;
+                }
+                current.idol = savedIdol;
+                loadlive2d("pio", prop.model[savedIdol]);
             }
 
             switch (prop.mode) {
