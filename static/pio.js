@@ -213,8 +213,57 @@ var Paul_Pio = function (prop) {
         elements.show.onclick = () => {
             current.body.classList.remove("hidden");
             localStorage.setItem("posterGirl", "1");
-            that.init();
+
+            // 获取保存的衣服索引
+            let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
+            if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) {
+                savedIdol = 0;
+            }
+            current.idol = savedIdol;
+
+            // 只加载保存的衣服，而不是 init() 里默认的第一套
+            loadlive2d("pio", prop.model[savedIdol]);
+
+            // 触发其他初始化操作（按钮、拖动等）
+            switch (prop.mode) {
+                case "static": current.body.classList.add("static"); break;
+                case "fixed":
+                    action.touch();
+                    action.buttons();
+                    break;
+                case "draggable":
+                    action.touch();
+                    action.buttons();
+                    const body = current.body;
+                    const location = { x: 0, y: 0 };
+
+                    const mousedown = (ev) => {
+                        const { offsetLeft, offsetTop } = ev.currentTarget;
+                        location.x = ev.clientX - offsetLeft;
+                        location.y = ev.clientY - offsetTop;
+
+                        document.addEventListener("mousemove", mousemove);
+                        document.addEventListener("mouseup", mouseup);
+                    };
+
+                    const mousemove = (ev) => {
+                        body.classList.add("active");
+                        body.classList.remove("right");
+                        body.style.left = (ev.clientX - location.x) + "px";
+                        body.style.top  = (ev.clientY - location.y) + "px";
+                        body.style.bottom = "auto";
+                    };
+
+                    const mouseup = () => {
+                        body.classList.remove("active");
+                        document.removeEventListener("mousemove", mousemove);
+                    };
+
+                    body.onmousedown = mousedown;
+                    break;
+            }
         }
+
     };
 
     localStorage.getItem("posterGirl") === "0" ? this.initHidden() : this.init();
