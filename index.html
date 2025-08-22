@@ -43,12 +43,15 @@
         "custom": []  // 可扩展
       },
       "model": [
-      "https://kotori12326.github.io/pio/models/pio/model-default.json"  // 初始只用 1 个
-    ],
-    "skins": [
-      "https://kotori12326.github.io/pio/models/pio/model_default.json",
-      "https://kotori12326.github.io/pio/models/pio/model_pajamas.json",
-      "https://kotori12326.github.io/pio/models/pio/model_school.json"
+        {
+          "url": "https://kotori12326.github.io/pio/models/pio/model.json"  // 初始只用 1 个
+          "textures": [
+            "textures/default-costume.png",
+            "textures/pajamas-costume.png",
+            "textures/school-costume.png"
+            // ...最多 40 套
+          ]
+        }
     ]
     });
   </script>

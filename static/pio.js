@@ -121,16 +121,25 @@ var Paul_Pio = function (prop) {
             current.menu.appendChild(elements.greet);
 
             // 更换衣服按钮
-            const canSkin = (prop.skins && prop.skins.length > 0) || (prop.model && prop.model.length > 0);
+            const canSkin = (prop.model && prop.model.length > 0);
             if (canSkin) {
                 elements.skin.onclick = () => {
-                    // 优先使用 skins（同一模型不同贴图），否则回退到多 model
-                    const nextUrl = (prop.skins && prop.skins.length)
-                      ? prop.skins[modules.skin()]
-                      : prop.model[modules.idol()];
-                    loadlive2d("pio", nextUrl);
+                    // 如果 model.json 中有 textures 数组，就切换索引
+                    const modelData = prop.model[0]; // 只有一个 model.json
+                    if (!current.textureIndex) current.textureIndex = 0;
+
+                    // 切换到下一套衣服
+                    current.textureIndex++;
+                    // textures 数量
+                    const texturesCount = modelData.textures.length;
+                    if (current.textureIndex >= texturesCount) current.textureIndex = 0;
+
+                    // 调用 Live2D 加载纹理索引
+                    loadlive2d("pio", modelData, current.textureIndex);
+
                     modules.message((prop.content.skin && prop.content.skin[1]) || "新衣服真漂亮~");
-                };
+            };
+
                 elements.skin.onmouseover = () => {
                     modules.message((prop.content.skin && prop.content.skin[0]) || "想看看我的新衣服吗？");
                 };
