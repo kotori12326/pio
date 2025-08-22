@@ -206,9 +206,9 @@ var Paul_Pio = function (prop) {
 
     this.initHidden = () => {
         if (prop.mode === "draggable") {
-            current.body.style.top = null;
-            current.body.style.left = null;
-            current.body.style.bottom = null;
+            current.body.style.top = "auto";
+            current.body.style.right = "20px";
+            current.body.style.bottom = "50px";
         }
 
         current.body.classList.add("hidden");
