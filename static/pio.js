@@ -169,6 +169,9 @@ var Paul_Pio = function (prop) {
                 }
                 current.idol = savedIdol;
                 loadlive2d("pio", prop.model[savedIdol]);
+                current.body.style.top = "auto";
+                current.body.style.right = "20px";
+                current.body.style.bottom = "50px";
             }
 
             switch (prop.mode) {
