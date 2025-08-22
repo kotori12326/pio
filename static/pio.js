@@ -188,28 +188,31 @@ var Paul_Pio = function (prop) {
 
     this.initHidden = () => {
         if (prop.mode === "draggable") {
-            current.body.style.top = "auto";
-            current.body.style.right = "20px";
-            current.body.style.bottom = "50px";
+            current.body.style.top = null;
+            current.body.style.left = null;
+            current.body.style.bottom = null;
         }
-
+    
         current.body.classList.add("hidden");
         elements.dialog.classList.remove("active");
-
+    
         elements.show.onclick = () => {
             current.body.classList.remove("hidden");
             localStorage.setItem("posterGirl", "1");
-
+    
+            // 获取保存的衣服索引
             let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
-            if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) savedIdol = 0;
+            if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) {
+                savedIdol = 0;
+            }
             current.idol = savedIdol;
-
+    
+            // 只加载保存的衣服，而不是 init() 里默认的第一套
             loadlive2d("pio", prop.model[savedIdol]);
-
+    
+            // 触发其他初始化操作（按钮、拖动等）
             switch (prop.mode) {
-                case "static":
-                    current.body.classList.add("static");
-                    break;
+                case "static": current.body.classList.add("static"); break;
                 case "fixed":
                     action.touch();
                     action.buttons();
@@ -219,16 +222,16 @@ var Paul_Pio = function (prop) {
                     action.buttons();
                     const body = current.body;
                     const location = { x: 0, y: 0 };
-
+    
                     const mousedown = (ev) => {
                         const { offsetLeft, offsetTop } = ev.currentTarget;
                         location.x = ev.clientX - offsetLeft;
                         location.y = ev.clientY - offsetTop;
-
+    
                         document.addEventListener("mousemove", mousemove);
                         document.addEventListener("mouseup", mouseup);
                     };
-
+    
                     const mousemove = (ev) => {
                         body.classList.add("active");
                         body.classList.remove("right");
@@ -236,17 +239,18 @@ var Paul_Pio = function (prop) {
                         body.style.top  = (ev.clientY - location.y) + "px";
                         body.style.bottom = "auto";
                     };
-
+    
                     const mouseup = () => {
                         body.classList.remove("active");
                         document.removeEventListener("mousemove", mousemove);
                     };
-
+    
                     body.onmousedown = mousedown;
                     break;
             }
-        };
+        }
     };
+
 
     this.init();
 };
