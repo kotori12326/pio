@@ -3,39 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <title>Live2D GitHub Pages 挂件示例</title>
+  <link rel="stylesheet" href="https://kotori12326.github.io/pio/static/pio.css">
   <style>
-    #live2d-widget {
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .pio-container {
       position: fixed;
       right: 20px;
-      bottom: 20px;
-      width: 200px;
-      height: 300px;
+      bottom: 0;
       z-index: 9999;
     }
   </style>
 </head>
 <body>
-  <div id="live2d-widget"></div>
 
-  <!-- 官方 Live2D Web SDK CDN -->
-  <script src="https://unpkg.com/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
+  <!-- 容器 -->
+  <div class="pio-container">
+    <canvas id="pio" width="400" height="600"></canvas>
+    <div class="pio-action"></div>
+  </div>
+
+  <!-- 必须的脚本 -->
+  <script src="https://kotori12326.github.io/pio/static/l2d.js"></script>
+  <script src="https://kotori12326.github.io/pio/static/pio.js"></script>
 
   <script>
-    L2Dwidget.init({
-      model: {
-        jsonPath: "https://kotori12326.github.io/pio/models/pio/model.json"
+    var pio = new Paul_Pio({
+      "mode": "fixed",   // 固定在右下角（可改 draggable 可拖动）
+      "hidden": false,   // 是否在移动端隐藏
+      "content": {
+        "welcome": "欢迎来到我的小站！",
+        "touch": ["不要碰我啦！", "再摸我就报警了！", "HENTAI!"],
+        "skin": ["想看看我的新衣服吗？", "哇哦，这套好看吗？"],
+        "home": "点击这里回到首页！",
+        "close": "QWQ 下次再见吧~",
+        "referer": "欢迎来自 %t 的朋友！",
+        "link": "https://github.com/kotori12326/pio",
+        "custom": []
       },
-      display: {
-        position: "right",
-        width: 200,
-        height: 300,
-        div: "live2d-widget"
-      },
-      mobile: {
-        show: true,
-        scale: 0.5
-      }
+      "model": [
+        "https://kotori12326.github.io/pio/models/pio/model.json"
+        // 可以继续添加其他模型 jsonPath 来实现更换
+      ]
     });
   </script>
+
 </body>
 </html>
