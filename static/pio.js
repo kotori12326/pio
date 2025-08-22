@@ -169,10 +169,9 @@ var Paul_Pio = function (prop) {
                 }
                 current.idol = savedIdol;
                 loadlive2d("pio", prop.model[savedIdol]);
-
-                // 设置默认显示位置，靠右下但不要太低
+                current.body.style.top = "auto";
                 current.body.style.right = "20px";
-                current.body.style.bottom = "200px";
+                current.body.style.bottom = "50px";
             }
 
             switch (prop.mode) {
@@ -208,10 +207,6 @@ var Paul_Pio = function (prop) {
 
             // 只加载保存的衣服
             loadlive2d("pio", prop.model[savedIdol]);
-
-            // 设置显示位置
-            current.body.style.right = "20px";
-            current.body.style.bottom = "200px";
 
             // 触发其他初始化操作（按钮、拖动等）
             switch (prop.mode) {
