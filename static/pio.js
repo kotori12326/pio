@@ -1,10 +1,7 @@
 /* ----
-
 # Pio Plugin (Modified)
 # By: Dreamer-Paul | Modified by Kotori
 # Last Update: 2025.08.22
-
-
 ---- */
 
 var Paul_Pio = function (prop) {
@@ -31,13 +28,12 @@ var Paul_Pio = function (prop) {
             ua = ua.indexOf("mobile") || ua.indexOf("android") || ua.indexOf("ios");
             return window.innerWidth < 500 || ua !== -1;
         }
-    }
+    };
 
     const elements = {
         greet: tools.create("span", { class: "pio-info" }), // 复用 info 样式
         skin: tools.create("span", { class: "pio-skin" }),
         close: tools.create("span", { class: "pio-close" }),
-
         dialog: tools.create("div", { class: "pio-dialog" }),
         show: tools.create("div", { class: "pio-show" })
     };
@@ -52,14 +48,11 @@ var Paul_Pio = function (prop) {
         },
         message: (text, options = {}) => {
             const { dialog } = elements;
-
             if (text.constructor === Array) {
                 dialog.innerText = tools.rand(text);
-            }
-            else if (text.constructor === String) {
+            } else if (text.constructor === String) {
                 dialog[options.html ? "innerHTML" : "innerText"] = text;
-            }
-            else {
+            } else {
                 dialog.innerText = "输入内容出现问题了 X_X";
             }
 
@@ -82,7 +75,6 @@ var Paul_Pio = function (prop) {
         welcome: () => {
             if (prop.tips) {
                 let text, hour = new Date().getHours();
-
                 if (hour > 22 || hour <= 5) text = "夜深了，早点休息哦~";
                 else if (hour > 5 && hour <= 8) text = "早上好！";
                 else if (hour > 8 && hour <= 11) text = "上午好！记得多喝水~";
@@ -94,30 +86,29 @@ var Paul_Pio = function (prop) {
                 else text = prop.content.welcome || "欢迎来到本站！";
 
                 modules.message(text);
-            }
-            else {
+            } else {
                 modules.message(prop.content.welcome || "欢迎来到本站！");
             }
         },
+
         touch: () => {
             current.canvas.onclick = () => {
                 modules.message(prop.content.touch || ["不要碰我啦！", "HENTAI!", "你坏坏~"]);
             };
         },
+
         buttons: () => {
             // 问候按钮
-            elements.greet.onclick = () => {
-                action.welcome();
-            };
-            elements.greet.onmouseover = () => {
-                modules.message("点击和我打个招呼吧~");
-            };
+            elements.greet.onclick = () => { action.welcome(); };
+            elements.greet.onmouseover = () => { modules.message("点击和我打个招呼吧~"); };
             current.menu.appendChild(elements.greet);
 
             // 更换衣服按钮
             if (prop.model && prop.model.length > 0) {
                 elements.skin.onclick = () => {
-                    loadlive2d("pio", prop.model[modules.idol()]);
+                    const nextIdol = modules.idol();
+                    localStorage.setItem("posterGirlIdol", nextIdol);
+                    loadlive2d("pio", prop.model[nextIdol]);
                     prop.content.skin && modules.message(prop.content.skin[1] || "新衣服真漂亮~");
                 };
                 elements.skin.onmouseover = () => {
@@ -127,9 +118,7 @@ var Paul_Pio = function (prop) {
             }
 
             // 关闭按钮
-            elements.close.onclick = () => {
-                modules.destroy();
-            };
+            elements.close.onclick = () => { modules.destroy(); };
             elements.close.onmouseover = () => {
                 modules.message(prop.content.close || "QWQ 下次再见吧~");
             };
@@ -139,10 +128,7 @@ var Paul_Pio = function (prop) {
 
     const begin = {
         static: () => current.body.classList.add("static"),
-        fixed: () => {
-            action.touch();
-            action.buttons();
-        },
+        fixed: () => { action.touch(); action.buttons(); },
         draggable: () => {
             action.touch();
             action.buttons();
@@ -180,7 +166,14 @@ var Paul_Pio = function (prop) {
         if (!(prop.hidden && tools.isMobile())) {
             if (!noModel) {
                 action.welcome();
-                loadlive2d("pio", prop.model[0]);
+                let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
+                if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) savedIdol = 0;
+                current.idol = savedIdol;
+                loadlive2d("pio", prop.model[savedIdol]);
+
+                current.body.style.bottom = "50px";
+                current.body.style.top = "auto";
+                current.body.style.right = "20px";
             }
 
             switch (prop.mode) {
@@ -195,9 +188,9 @@ var Paul_Pio = function (prop) {
 
     this.initHidden = () => {
         if (prop.mode === "draggable") {
-            current.body.style.top = null;
-            current.body.style.left = null;
-            current.body.style.bottom = null;
+            current.body.style.top = "auto";
+            current.body.style.right = "20px";
+            current.body.style.bottom = "50px";
         }
 
         current.body.classList.add("hidden");
@@ -206,14 +199,62 @@ var Paul_Pio = function (prop) {
         elements.show.onclick = () => {
             current.body.classList.remove("hidden");
             localStorage.setItem("posterGirl", "1");
-            that.init();
-        }
+
+            let savedIdol = parseInt(localStorage.getItem("posterGirlIdol"));
+            if (isNaN(savedIdol) || savedIdol < 0 || savedIdol >= prop.model.length) savedIdol = 0;
+            current.idol = savedIdol;
+
+            loadlive2d("pio", prop.model[savedIdol]);
+
+            switch (prop.mode) {
+                case "static":
+                    current.body.classList.add("static");
+                    break;
+                case "fixed":
+                    action.touch();
+                    action.buttons();
+                    break;
+                case "draggable":
+                    action.touch();
+                    action.buttons();
+                    const body = current.body;
+                    const location = { x: 0, y: 0 };
+
+                    const mousedown = (ev) => {
+                        const { offsetLeft, offsetTop } = ev.currentTarget;
+                        location.x = ev.clientX - offsetLeft;
+                        location.y = ev.clientY - offsetTop;
+
+                        document.addEventListener("mousemove", mousemove);
+                        document.addEventListener("mouseup", mouseup);
+                    };
+
+                    const mousemove = (ev) => {
+                        body.classList.add("active");
+                        body.classList.remove("right");
+                        body.style.left = (ev.clientX - location.x) + "px";
+                        body.style.top  = (ev.clientY - location.y) + "px";
+                        body.style.bottom = "auto";
+                    };
+
+                    const mouseup = () => {
+                        body.classList.remove("active");
+                        document.removeEventListener("mousemove", mousemove);
+                    };
+
+                    body.onmousedown = mousedown;
+                    break;
+            }
+        };
     };
 
-    localStorage.getItem("posterGirl") === "0" ? this.initHidden() : this.init();
+    this.init();
 };
 
 // 请保留版权说明
 if (window.console && window.console.log) {
-    console.log("%c Pio %c https://paugram.com ","color: #fff; margin: 1em 0; padding: 5px 0; background: #673ab7;","margin: 1em 0; padding: 5px 0; background: #efefef;");
+    console.log("%c Pio %c https://paugram.com ",
+        "color: #fff; margin: 1em 0; padding: 5px 0; background: #673ab7;",
+        "margin: 1em 0; padding: 5px 0; background: #efefef;"
+    );
 }
